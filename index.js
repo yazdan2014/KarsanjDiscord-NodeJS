@@ -48,13 +48,13 @@ client.on('message' , (message) => {
     if(message.content == "$who"){
         var model = profileModel
 
-        model.find({userId:message.author.id}, function(err, obj) {    
+        model.find({userId:message.author.id}).then(( obj , err)=> {    
             if (!err){
-                message.channel.send(obj[0].name)
+                message.channel.send(obj[0].name )
             }else{
                 message.channel.send("you haven't signed up yet")
             }
-        })
+        }) 
     }
 
     if(message.content == "$help"){
@@ -174,7 +174,7 @@ client.on('message' , (message) => {
 
         var model = profileModel
 
-        model.find({userId:message.author.id}, function(err, obj) {    
+        model.find({userId:message.author.id}).then((obj ,err) => {    
             if (!err){
                 let username 
                 let password 
