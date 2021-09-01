@@ -184,7 +184,7 @@ client.on('message' , (message) => {
                 password = obj[0].password
                 name = obj[0].name
 
-                message.channel.send(`hello ${name}!`)
+                message.channel.send(`hello ${name}! ${username}`)
 
                 let file_name = `${name}.${message.createdAt.getUTCMonth().toString()}${message.createdAt.getUTCDay().toString()}${message.createdAt.getUTCHours().toString()}${message.createdAt.getUTCMinutes().toString()}${message.createdAt.getUTCSeconds().toString()}.pdf`
                 console.log(name + " just used the bot")
