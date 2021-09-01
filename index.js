@@ -215,7 +215,7 @@ client.on('message' , (message) => {
             }else{
                 message.channel.send("you haven't signed up yet")
             }
-        }).catch()        
+        })      
     }
 })
 client.login("NzQwODM0NzE0NjA0MTQyNjc1.XyuyGA.YU-yPGlWcRi6lTOCM0qKWuv1LpI");
