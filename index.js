@@ -171,52 +171,55 @@ client.on('message' , (message) => {
     }
 
     if (message.attachments.first() && status){
-        let username 
-        let password 
-        let name
-        let homework_text = worker.home_work_set
+
 
         var model = profileModel
 
         model.find({userId:message.author.id}, function(err, obj) {    
             if (!err){
+                let username 
+                let password 
+                let name
+                let homework_text = worker.home_work_set
                 username = obj[0].username
                 password = obj[0].password
                 name = obj[0].name
 
                 message.channel.send(`hello ${name}!`)
+
+                let file_name = `${name}.${message.createdAt.getUTCMonth().toString()}${message.createdAt.getUTCDay().toString()}${message.createdAt.getUTCHours().toString()}${message.createdAt.getUTCMinutes().toString()}${message.createdAt.getUTCSeconds().toString()}.pdf`
+
+
+                console.log(name + " just used the bot")
+        
+                message.react("✅")
+                message.react("⛔")
+                const filter = (reaction, user) => {
+                    return ["✅","⛔"].includes(reaction.emoji.name) && user.id === message.author.id;
+                };
+                
+                message.awaitReactions(filter,{ max: 1, time: 60000, errors: ['time'] })
+                    .then(collected => {
+                        const reaction = collected.first();
+                        if(reaction.emoji.name == "✅"){
+                            console.log("serers")
+                            download(message.attachments.first().url , file_name)
+                            message.channel.send("please wait while the file is being uploaded... ( HAJIT DARE CHOSI MIAD MASALN MAN YE BOTE KHAFANAM) bia boro to koonam baba sab kon alan file kirito upload mikonam")
+                            webScrape.uploadMasgha(username , password , homework_text, file_name )
+                        }
+                        if (reaction.emoji.name == "⛔") {
+                            message.channel.send("KOONKESH ISGA KARDI ??")
+                        }
+                    })
+                    .catch(collected => {
+                        message.reply('you ran out of time');
+                    });
             }else{
                 message.channel.send("you haven't signed up yet")
             }
         }).then()
 
-        let file_name = `${name}.${message.createdAt.getUTCMonth().toString()}${message.createdAt.getUTCDay().toString()}${message.createdAt.getUTCHours().toString()}${message.createdAt.getUTCMinutes().toString()}${message.createdAt.getUTCSeconds().toString()}.pdf`
 
-
-        console.log(name + " just used the bot")
-
-        message.react("✅")
-        message.react("⛔")
-        const filter = (reaction, user) => {
-            return ["✅","⛔"].includes(reaction.emoji.name) && user.id === message.author.id;
-        };
-        
-        message.awaitReactions(filter,{ max: 1, time: 60000, errors: ['time'] })
-            .then(collected => {
-                const reaction = collected.first();
-                if(reaction.emoji.name == "✅"){
-                    console.log("serers")
-                    download(message.attachments.first().url , file_name)
-                    message.channel.send("please wait while the file is being uploaded... ( HAJIT DARE CHOSI MIAD MASALN MAN YE BOTE KHAFANAM) bia boro to koonam baba sab kon alan file kirito upload mikonam")
-                    webScrape.uploadMasgha(username , password , homework_text, file_name )
-                }
-                if (reaction.emoji.name == "⛔") {
-                    message.channel.send("KOONKESH ISGA KARDI ??")
-                }
-            })
-            .catch(collected => {
-                message.reply('you ran out of time');
-            });
         
     }
 })
