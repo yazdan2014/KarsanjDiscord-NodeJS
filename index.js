@@ -202,8 +202,7 @@ client.on('message' , (message) => {
                             console.log("serers")
                             download(message.attachments.first().url , file_name)
                             message.channel.send("please wait while the file is being uploaded... ( HAJIT DARE CHOSI MIAD MASALN MAN YE BOTE KHAFANAM) bia boro to koonam baba sab kon alan file kirito upload mikonam")
-                            webScrape.uploadMasgha(username , password , homework_text, file_name )
-                            .then( message.channel.send("done!"))
+                            webScrape.uploadMasgha(username , password , homework_text, file_name)
                         }
                         if (reaction.emoji.name == "⛔") {
                             message.channel.send("KOONKESH ISGA KARDI ??")
