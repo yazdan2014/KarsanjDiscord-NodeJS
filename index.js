@@ -172,7 +172,6 @@ client.on('message' , (message) => {
 
     if (message.attachments.first() && status){
 
-
         var model = profileModel
 
         model.find({userId:message.author.id}, function(err, obj) {    
@@ -188,10 +187,8 @@ client.on('message' , (message) => {
                 message.channel.send(`hello ${name}!`)
 
                 let file_name = `${name}.${message.createdAt.getUTCMonth().toString()}${message.createdAt.getUTCDay().toString()}${message.createdAt.getUTCHours().toString()}${message.createdAt.getUTCMinutes().toString()}${message.createdAt.getUTCSeconds().toString()}.pdf`
-
-
                 console.log(name + " just used the bot")
-        
+
                 message.react("✅")
                 message.react("⛔")
                 const filter = (reaction, user) => {
@@ -218,10 +215,7 @@ client.on('message' , (message) => {
             }else{
                 message.channel.send("you haven't signed up yet")
             }
-        }).then()
-
-
-        
+        }).catch()        
     }
 })
 client.login("NzQwODM0NzE0NjA0MTQyNjc1.XyuyGA.YU-yPGlWcRi6lTOCM0qKWuv1LpI");
