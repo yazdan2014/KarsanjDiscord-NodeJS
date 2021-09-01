@@ -67,6 +67,7 @@ async function getMashgha(){
         // console.log(mashgha)
 
     } catch(err){
+        getMashgha()
         console.log(err)
     }
     finally{
@@ -104,6 +105,7 @@ async function uploadMasgha(username, password,homework_text,file_name){
 
     }catch(err){
         console.log(err)
+        uploadMasgha()
     }finally{
     }
 }
