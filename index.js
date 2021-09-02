@@ -80,11 +80,9 @@ client.on('message' , (message) => {
                     message.channel.send("You have already signed up")
                 }
             })
-
         }else{
             message.channel.send("You didn't use a correct input form please try again")
         }
-        
     }
 
     if(message.content == "$uploadsts"){
@@ -112,7 +110,7 @@ client.on('message' , (message) => {
     }
 
     if(message.author.id == "740834714604142675" && message.content.includes("چربش کن که اومد")){
-        
+
         for(let i=0 ; i<=counter-1;i++){
             message.react(emojies[i])
             emojiesUsed.push(emojies[i])
@@ -144,11 +142,10 @@ client.on('message' , (message) => {
     if(message.content.toLowerCase() == "$set"){
 
 
-        message.channel.send("Please wait while mashgha is being fetched...")
-
+        message.channel.send("Please wait while mashgha is being fetched...").then(msg => {
             let random_emoji = randomEmoji.random({count:1})
             let finalMashghaMsg = " چربش کن که اومد 🧼"
-            webScrape.getMashgha().then(mashgha => {
+            webScrape.getMashgha(msg).catch(err => console.log("mame" + err)).then(mashgha => {
 
                 mashgha.forEach(r => {
                     finalMashghaMsg += "\n"+ random_emoji[0].character + r.topic + "\n" ;
@@ -156,18 +153,13 @@ client.on('message' , (message) => {
                     r.homework.forEach(r=>{
                         finalMashghaMsg += `${emojies[counter]}` + r.toString() + "\n\n";
                         let masghAndEmoji =[emojies[counter] , r.toString()]
-                        console.log(masghAndEmoji)
                         homeworkAndEmoji.push(masghAndEmoji)
                         counter++;
                     });
                 })
-
                 message.channel.send(finalMashghaMsg)
-
             })
-            
-        
-        
+        })        
     }
 
     if (message.attachments.first() && status){
@@ -199,10 +191,9 @@ client.on('message' , (message) => {
                     .then(collected => {
                         const reaction = collected.first();
                         if(reaction.emoji.name == "✅"){
-                            console.log("serers")
                             download(message.attachments.first().url , file_name)
                             message.channel.send("please wait while the file is being uploaded... ( HAJIT DARE CHOSI MIAD MASALN MAN YE BOTE KHAFANAM) bia boro to koonam baba sab kon alan file kirito upload mikonam")
-                            webScrape.uploadMasgha(username , password , homework_text, file_name)
+                            webScrape.uploadMasgha(username , password , homework_text, file_name , message)
                         }
                         if (reaction.emoji.name == "⛔") {
                             message.channel.send("KOONKESH ISGA KARDI ??")
@@ -214,7 +205,7 @@ client.on('message' , (message) => {
             }else{
                 message.channel.send("you haven't signed up yet")
             }
-        })      
+        })
     }
 })
 client.login("NzQwODM0NzE0NjA0MTQyNjc1.XyuyGA.YU-yPGlWcRi6lTOCM0qKWuv1LpI");
