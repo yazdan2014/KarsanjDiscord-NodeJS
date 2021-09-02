@@ -5,17 +5,10 @@ const fs = require("fs")
 let username_str = "0250161893"
 let password_str = "kosesina"
 
-async function takeScreenshot(driver ,file){
-        let image = await driver.takeScreenshot()
-        await fsp.writeFile(file, image, 'base64')
-}
-
 async function getMashgha(discord_message){
     const driver = new Builder()
     .forBrowser("chrome")
     .build()
-
-
 
     try{
         await discord_message.edit("loging into mat.ir...")
@@ -40,7 +33,7 @@ async function getMashgha(discord_message){
         await driver.wait(until.elementLocated(By.xpath('//*[@id="homework"]/div[2]/div[2]/div/label/input')), 15000) //namayeshe mashghaye ghabli
         .then(namayesheGhabliHa => namayesheGhabliHa.click())
         await discord_message.edit("listing mashgha, almost there...")
-
+        await driver.executeScript("document.body.style.zoom='150%'")
         let buffer = await driver.takeScreenshot()
 
         let darsButtons

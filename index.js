@@ -6,6 +6,8 @@ const emojies = ["0️⃣","1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6�
 const webScrape = require("./WebScrape")
 let status = false
 
+
+
 const request = require("request")
 let fs = require(`fs`);
 function download(url , name){
