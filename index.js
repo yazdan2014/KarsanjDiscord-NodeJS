@@ -46,7 +46,30 @@ let emojiesUsed = []
 
 let counter = 0
 
+let animatorStatus = true
+
+
+
 client.on('message' , (message) => {
+    // if(message.content == "base" || message.content == "base dige"){
+    //     animatorStatus = false
+    // }
+    // if(message.content == "$joftak"){
+    //     function animator(msg){
+    //         if(animatorStatus){
+    //             msg.edit("⏳")
+        
+    //             setTimeout(function(){msg.edit("⌛");setTimeout(animator , 1000)} ,1000)
+                
+    //         }else{
+    //             animatorStatus = false
+    //         }
+    //     }
+    //     message.channel.send("⌛").then(msg =>{
+    //         animator(msg)            
+    //     })
+    // }
+
     if(message.content == "$who"){
         var model = profileModel
 
