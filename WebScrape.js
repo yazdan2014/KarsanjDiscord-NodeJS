@@ -68,7 +68,7 @@ async function getMashgha(discord_message){
         await discord_message.delete()
 
         await driver.findElement(By.xpath('//*[@id="homework"]/div[2]/div[1]/button[1]')).click()
-        await driver.executeScript("document.body.style.zoom='80%'")
+        await driver.executeScript("document.body.style.zoom='70%'")
         let buffer = await driver.takeScreenshot()
         fs.writeFileSync("screenshot.png", buffer , "base64")
         await discord_message.channel.send({ files: ["screenshot.png"] })
