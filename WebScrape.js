@@ -22,7 +22,8 @@ async function getMashgha(discord_message){
         //tooye dashboarde mat.ir
         await discord_message.edit("Waiting for mat.ir to load up...⏳")
         await driver.wait(until.elementLocated(By.xpath('//*[@id="formKarsanj"]/button')), 15000)
-        .then(karsanjgButton => karsanjgButton.click())
+        await driver.sleep(2000);
+        await driver.findElement(By.xpath('//*[@id="formKarsanj"]/button')).click()
         await discord_message.edit("Clicked on karsanj button✅")
 
         //tooye karsanj dashboard
@@ -101,14 +102,15 @@ async function uploadMasgha(username, password, name ,homework_text,file_name,di
         //tooye dashboarde mat.ir
         await discord_message.edit("Waiting for mat.ir to load up...⏳")
         await driver.wait(until.elementLocated(By.xpath('//*[@id="formKarsanj"]/button')), 15000)
-        .then(karsanjgButton => karsanjgButton.click())
+        await driver.sleep(2000);
+        await driver.findElement(By.xpath('//*[@id="formKarsanj"]/button')).click()
         await discord_message.edit("Clicked on karsanj button✅")
 
         //tooye karsanj dashboard
         await discord_message.edit(`Waiting for \n \`\`\`${homework_text}\`\`\` \n to be located`)
         await driver.get("https://karsanj.net/assignment_list.php")
 
-        await driver.wait(until.elementLocated(By.linkText(homework_text)), 15000)
+        await driver.wait(until.ele(By.linkText(homework_text)), 15000)
         .then(async karsanjgButton => {
             await karsanjgButton.click()
         })
