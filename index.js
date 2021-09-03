@@ -141,52 +141,55 @@ client.on('message' , (message) => {
             let random_emoji = randomEmoji.random({count:1})
             let finalMashghaMsg = ""
             webScrape.getMashgha(msg).catch(err => console.log("mame" + err)).then(mashgha => {
-
-                mashgha.forEach(r => {
-                    finalMashghaMsg += "\n"+ random_emoji[0].character + r.topic + "\n" ;
-    
-                    r.homework.forEach(r=>{
-                        finalMashghaMsg += `${emojies[counter]}` + r.toString() + "\n\n";
-                        let masghAndEmoji =[emojies[counter] , r.toString()]
-                        homeworkAndEmoji.push(masghAndEmoji)
-                        counter++;
-                    });
-                })
-
-                let embed = new MessageEmbed()
-                .setColor('#00FF00')
-                .setTitle("چربش کن که اومد 🧼")
-                .setDescription(finalMashghaMsg)
-                .setThumbnail("attachment://screenshot.png")
-
-                message.channel.send({embed , files : ["screenshot.png"]})
-                .then(msgToReact=>{
-                    for(let i=0 ; i<=counter-1;i++){
-                        msgToReact.react(emojies[i])
-                        emojiesUsed.push(emojies[i])
-                    }
-                    counter = 0
-            
-                    const filter = (reaction, user) => {
-                        return emojiesUsed.includes(reaction.emoji.name) && user.id !== "740834714604142675";
-                    };
-                    
-                    msgToReact.awaitReactions(filter,{  max: 1, time: 60000, errors: ['time'] })
-                        .then(collected => {
-                            const reaction = collected.first();
-                            homeworkAndEmoji.forEach(r =>{
-                                if(r[0] == reaction.emoji.name){
-                                    worker.home_work_set = r[1]
-                                    msgToReact.channel.send(`\nHomework uploading is now set on: \n\n ${r[0]} \n ${r[1]}`)
-                                    homeworkAndEmoji = []
-                                }
-                            })
-                            
-                        })
-                        .catch(collected => {
-                            message.reply('you ran out of time');
+                if(mashgha){
+                    mashgha.forEach(r => {
+                        finalMashghaMsg += "\n"+ random_emoji[0].character + r.topic + "\n" ;
+        
+                        r.homework.forEach(r=>{
+                            finalMashghaMsg += `${emojies[counter]}` + r.toString() + "\n\n";
+                            let masghAndEmoji =[emojies[counter] , r.toString()]
+                            homeworkAndEmoji.push(masghAndEmoji)
+                            counter++;
                         });
-                })
+                    })
+
+                    let embed = new MessageEmbed()
+                    .setColor('#00FF00')
+                    .setTitle("چربش کن که اومد 🧼")
+                    .setDescription(finalMashghaMsg)
+                    .setThumbnail("attachment://screenshot_set.png")
+
+                    message.channel.send({embed , files : ["screenshot_set.png"]})
+                    .then(msgToReact=>{
+                        for(let i=0 ; i<=counter-1;i++){
+                            msgToReact.react(emojies[i])
+                            emojiesUsed.push(emojies[i])
+                        }
+                        counter = 0
+                
+                        const filter = (reaction, user) => {
+                            return emojiesUsed.includes(reaction.emoji.name) && user.id !== "740834714604142675";
+                        };
+                        
+                        msgToReact.awaitReactions(filter,{  max: 1, time: 60000, errors: ['time'] })
+                            .then(collected => {
+                                const reaction = collected.first();
+                                homeworkAndEmoji.forEach(r =>{
+                                    if(r[0] == reaction.emoji.name){
+                                        worker.home_work_set = r[1]
+                                        msgToReact.channel.send(`\nHomework uploading is now set on: \n\n ${r[0]} \n ${r[1]}`)
+                                        homeworkAndEmoji = []
+                                    }
+                                })
+                                
+                            })
+                            .catch(collected => {
+                                message.reply('you ran out of time');
+                            });
+                    })
+                }else{
+                    message.channel.send("ye margish shod dobare emtehan kon")
+                }
             })
         })        
     }
@@ -222,7 +225,22 @@ client.on('message' , (message) => {
                         if(reaction.emoji.name == "✅"){
                             download(message.attachments.first().url , file_name)
                             message.channel.send("please wait while the file is being uploaded... ( HAJIT DARE CHOSI MIAD MASALN MAN YE BOTE KHAFANAM) bia boro to koonam baba sab kon alan file kirito upload mikonam")
-                            webScrape.uploadMasgha(username , password , homework_text, file_name , message)
+                            .then( msg => {
+                                webScrape.uploadMasgha(username , password , name, homework_text, file_name , msg)
+                                .then(r=>{
+                                    if(r){
+                                        let embed = new MessageEmbed()
+                                        .setColor('#00FF00')
+                                        .setTitle("Done ✅")
+                                        .setDescription("vazeline malide shod")
+                                        .setImage("attachment://screenshot_upload.png")
+                                        msg.delete()
+                                        message.channel.send({embed , files : ["screenshot_upload.png"]})
+                                    }else{
+                                        message.channel.send("ye margish shod dobare emtehan kon")
+                                    }
+                                })
+                            })
                         }
                         if (reaction.emoji.name == "⛔") {
                             message.channel.send("KOONKESH ISGA KARDI ??")

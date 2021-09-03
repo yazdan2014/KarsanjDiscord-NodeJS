@@ -11,28 +11,28 @@ async function getMashgha(discord_message){
     .build()
 
     try{
-        await discord_message.edit("loging into mat.ir...⌛")
+        await discord_message.edit("Logging into mat.ir...⌛")
         //login baraye mat.ir
         await driver.get("https://student.mat.ir/")
         await driver.findElement(By.id("UserName")).sendKeys(username_str)
         await driver.findElement(By.id("Password")).sendKeys(password_str)
         await driver.findElement(By.id("btnToken")).click()
-        await discord_message.edit("logged in succesfully⌛")
+        await discord_message.edit("Logged in succesfully✅")
 
         //tooye dashboarde mat.ir
-        await discord_message.edit("waiting for mat.ir to load up...⏳")
-        await driver.wait(until.elementLocated(By.xpath('/html/body/div/div[2]/div[2]/div/div/div[3]/form/button')), 15000)
+        await discord_message.edit("Waiting for mat.ir to load up...⏳")
+        await driver.wait(until.elementLocated(By.xpath('//*[@id="formKarsanj"]/button')), 15000)
         .then(karsanjgButton => karsanjgButton.click())
-        await discord_message.edit("clicked on karsanj button")
+        await discord_message.edit("Clicked on karsanj button✅")
 
         //tooye karsanj dashboard
-        await discord_message.edit("heading to assignmet_list...⌛")
+        await discord_message.edit("Heading to assignmet_list...⌛")
         await driver.get("https://karsanj.net/assignment_list.php")
 
         //tooye fehreste takalif
         await driver.wait(until.elementLocated(By.xpath('//*[@id="homework"]/div[2]/div[2]/div/label/input')), 15000) //namayeshe mashghaye ghabli
         .then(namayesheGhabliHa => namayesheGhabliHa.click())
-        await discord_message.edit("listing mashgha, almost there...⌛")
+        await discord_message.edit("Listing mashgha, almost there...⌛")
 
         let darsButtons
         await driver.wait(until.elementsLocated(By.xpath('/html/body/center/table[2]/tbody/tr[1]/td/table/tbody/tr/td[1]/table/tbody/tr/td/div/div[2]/div[1]/div[2]/div[1]/button')), 15000)
@@ -68,9 +68,10 @@ async function getMashgha(discord_message){
         await discord_message.delete()
 
         await driver.findElement(By.xpath('//*[@id="homework"]/div[2]/div[1]/button[1]')).click()
+
         await driver.executeScript("document.body.style.zoom='70%'")
         let buffer = await driver.takeScreenshot()
-        fs.writeFileSync("screenshot.png", buffer , "base64")
+        fs.writeFileSync("screenshot_set.png", buffer , "base64")
         
         return mashgha
         // console.log(mashgha)
@@ -83,7 +84,7 @@ async function getMashgha(discord_message){
     }
 }
 
-async function uploadMasgha(username, password,homework_text,file_name,discord_message){
+async function uploadMasgha(username, password, name ,homework_text,file_name,discord_message){
     const driver = new Builder()
     .forBrowser("chrome")
     .build()
@@ -91,28 +92,47 @@ async function uploadMasgha(username, password,homework_text,file_name,discord_m
     try{
         //login baraye mat.ir
         await driver.get("https://student.mat.ir/")
+        discord_message.edit("Logging in as" + name + "⌛")
         await driver.findElement(By.id("UserName")).sendKeys(username)
         await driver.findElement(By.id("Password")).sendKeys(password)
         await driver.findElement(By.id("btnToken")).click()
+        await discord_message.edit("Logged in succesfully ✅")
 
         //tooye dashboarde mat.ir
-        await driver.wait(until.elementLocated(By.xpath('/html/body/div/div[2]/div[2]/div/div/div[3]/form/button')), 15000)
+        await discord_message.edit("Waiting for mat.ir to load up...⏳")
+        await driver.wait(until.elementLocated(By.xpath('//*[@id="formKarsanj"]/button')), 15000)
         .then(karsanjgButton => karsanjgButton.click())
+        await discord_message.edit("Clicked on karsanj button✅")
 
         //tooye karsanj dashboard
+        await discord_message.edit(`Waiting for \n \`\`\`${homework_text}\`\`\` \n to be located`)
         await driver.get("https://karsanj.net/assignment_list.php")
 
         await driver.wait(until.elementLocated(By.linkText(homework_text)), 15000)
         .then(async karsanjgButton => {
             await karsanjgButton.click()
-            let file = "./mashgha/" + file_name
-            await driver.findElement(By.id("myfile")).sendKeys(path.resolve(file))
         })
+
+        await discord_message.edit("Uploading the file...⏳")
+        let file = "./mashgha/" + file_name
+        await driver.findElement(By.id("myfile")).sendKeys(path.resolve(file))
+ 
+        await driver.wait(until.elementLocated(By.xpath(`//*[text()='${file_name}']`)), 20000)
+
+        await discord_message.edit(`Taking a screen shot , say CHEESE! ✌`)
+        await driver.executeScript("document.body.style.zoom='63%'")
+        let buffer = await driver.takeScreenshot()
+        fs.writeFileSync("screenshot_upload.png", buffer , "base64")
+
+
+        return true
+
 
     }catch(err){
         console.log(err)
         // uploadMasgha()
     }finally{
+        driver.close()
     }
 }
 module.exports = {getMashgha , uploadMasgha}
