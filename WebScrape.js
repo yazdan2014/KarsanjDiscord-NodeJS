@@ -70,7 +70,12 @@ async function getMashgha(discord_message){
 
         await driver.findElement(By.xpath('//*[@id="homework"]/div[2]/div[1]/button[1]')).click()
 
-        await driver.executeScript("document.body.style.zoom='70%'")
+        await driver.executeScript(`
+        $("body > center").children(":not( table:nth-child(2))").remove()
+        $("body > center > table > tbody").children(":not( tr:nth-child(1))").remove()
+        $("body > center > table > tbody > tr > td > table > tbody > tr ").children(":not( td:nth-child(1))").remove()
+        $("body > center > table > tbody > tr > td > table > tbody > tr > td ").children(":not( table:nth-child(3))").remove()
+        $("body > center > table > tbody > tr > td > table > tbody > tr > td > table > tbody > tr > td > div ").children(":not( div:nth-child(3))").remove()`)
         let buffer = await driver.takeScreenshot()
         fs.writeFileSync("screenshot_set.png", buffer , "base64")
         
