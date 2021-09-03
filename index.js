@@ -183,7 +183,7 @@ client.on('message' , (message) => {
                 })
 
                 let embed = new MessageEmbed()
-                .setColor('#BFFF00')
+                .setColor('#00FF00')
                 .setTitle("چربش کن که اومد 🧼")
                 .setDescription(finalMashghaMsg)
                 .setThumbnail("attachment://screenshot.png")
