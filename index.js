@@ -157,7 +157,7 @@ client.on('message' , (message) => {
                     .setColor('#00FF00')
                     .setTitle("چربش کن که اومد 🧼")
                     .setDescription(finalMashghaMsg)
-                    .setThumbnail("attachment://screenshot_set.png")
+                    .setImage("attachment://screenshot_set.png")
 
                     message.channel.send({embed , files : ["screenshot_set.png"]})
                     .then(msgToReact=>{
