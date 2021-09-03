@@ -135,35 +135,6 @@ client.on('message' , (message) => {
         }
     }
 
-    if(message.author.id == "740834714604142675" && message.content.includes("چربش کن که اومد")){
-
-        for(let i=0 ; i<=counter-1;i++){
-            message.react(emojies[i])
-            emojiesUsed.push(emojies[i])
-        }
-        counter = 0
-
-        const filter = (reaction, user) => {
-            return emojiesUsed.includes(reaction.emoji.name) && user.id !== "740834714604142675";
-        };
-        
-        message.awaitReactions(filter,{  max: 1, time: 60000, errors: ['time'] })
-            .then(collected => {
-                const reaction = collected.first();
-                homeworkAndEmoji.forEach(r =>{
-                    if(r[0] == reaction.emoji.name){
-                        worker.home_work_set = r[1]
-                        message.channel.send(`\nHomework uploading is now set on: \n\n ${r[0]} \n ${r[1]}`)
-                        homeworkAndEmoji = []
-                    }
-                })
-                
-            })
-            .catch(collected => {
-                message.reply('you ran out of time');
-            });
-
-    }
 
     if(message.content.toLowerCase() == "$set"){
         message.channel.send("Please wait while mashgha is being fetched...").then(msg => {
@@ -189,6 +160,33 @@ client.on('message' , (message) => {
                 .setThumbnail("attachment://screenshot.png")
 
                 message.channel.send({embed , files : ["screenshot.png"]})
+                .then(msgToReact=>{
+                    for(let i=0 ; i<=counter-1;i++){
+                        msgToReact.react(emojies[i])
+                        emojiesUsed.push(emojies[i])
+                    }
+                    counter = 0
+            
+                    const filter = (reaction, user) => {
+                        return emojiesUsed.includes(reaction.emoji.name) && user.id !== "740834714604142675";
+                    };
+                    
+                    msgToReact.awaitReactions(filter,{  max: 1, time: 60000, errors: ['time'] })
+                        .then(collected => {
+                            const reaction = collected.first();
+                            homeworkAndEmoji.forEach(r =>{
+                                if(r[0] == reaction.emoji.name){
+                                    worker.home_work_set = r[1]
+                                    msgToReact.channel.send(`\nHomework uploading is now set on: \n\n ${r[0]} \n ${r[1]}`)
+                                    homeworkAndEmoji = []
+                                }
+                            })
+                            
+                        })
+                        .catch(collected => {
+                            message.reply('you ran out of time');
+                        });
+                })
             })
         })        
     }
