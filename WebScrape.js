@@ -71,7 +71,6 @@ async function getMashgha(discord_message){
         await driver.executeScript("document.body.style.zoom='70%'")
         let buffer = await driver.takeScreenshot()
         fs.writeFileSync("screenshot.png", buffer , "base64")
-        await discord_message.channel.send({ files: ["screenshot.png"] })
         
         return mashgha
         // console.log(mashgha)

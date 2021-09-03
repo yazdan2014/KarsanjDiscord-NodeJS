@@ -1,5 +1,6 @@
 // Discord JS 
 const Discord = require('discord.js');
+const {MessageEmbed } = require('discord.js')
 const client = new Discord.Client();
 const randomEmoji = require('random-emoji');
 const emojies = ["0️⃣","1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣"]
@@ -165,11 +166,9 @@ client.on('message' , (message) => {
     }
 
     if(message.content.toLowerCase() == "$set"){
-
-
         message.channel.send("Please wait while mashgha is being fetched...").then(msg => {
             let random_emoji = randomEmoji.random({count:1})
-            let finalMashghaMsg = " چربش کن که اومد 🧼"
+            let finalMashghaMsg = ""
             webScrape.getMashgha(msg).catch(err => console.log("mame" + err)).then(mashgha => {
 
                 mashgha.forEach(r => {
@@ -182,7 +181,14 @@ client.on('message' , (message) => {
                         counter++;
                     });
                 })
-                message.channel.send(finalMashghaMsg)
+
+                let embed = new MessageEmbed()
+                .setColor('#BFFF00')
+                .setTitle("چربش کن که اومد 🧼")
+                .setDescription(finalMashghaMsg)
+                .setThumbnail("attachment://screenshot.png")
+
+                message.channel.send({embed , files : ["screenshot.png"]})
             })
         })        
     }
