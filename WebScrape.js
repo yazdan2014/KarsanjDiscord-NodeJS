@@ -110,7 +110,7 @@ async function uploadMasgha(username, password, name ,homework_text,file_name,di
         await discord_message.edit(`Waiting for \n \`\`\`${homework_text}\`\`\` \n to be located`)
         await driver.get("https://karsanj.net/assignment_list.php")
 
-        await driver.wait(until.ele(By.linkText(homework_text)), 15000)
+        await driver.wait(until.elementLocated(By.linkText(homework_text)), 15000)
         .then(async karsanjgButton => {
             await karsanjgButton.click()
         })
