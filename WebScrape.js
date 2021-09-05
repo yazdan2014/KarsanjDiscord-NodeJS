@@ -75,9 +75,11 @@ async function getMashgha(discord_message){
         $("body > center > table > tbody").children(":not( tr:nth-child(1))").remove()
         $("body > center > table > tbody > tr > td > table > tbody > tr ").children(":not( td:nth-child(1))").remove()
         $("body > center > table > tbody > tr > td > table > tbody > tr > td ").children(":not( table:nth-child(3))").remove()
-        $("body > center > table > tbody > tr > td > table > tbody > tr > td > table > tbody > tr > td > div ").children(":not( div:nth-child(3))").remove()`)
+        $("body > center > table > tbody > tr > td > table > tbody > tr > td > table > tbody > tr > td > div ").children(":not( div:nth-child(3))").remove()
+        $("body").attr("bgcolor" , "white")
+        $("body > center > table > tbody > tr > td > table > tbody > tr > td > table").attr("width","")`)
         await driver.executeScript('$("body").css("overflow", "hidden");')
-        await driver.executeScript("document.body.style.zoom='130%'")
+        await driver.executeScript("document.body.style.zoom='120%'")
         let buffer = await driver.takeScreenshot()
         fs.writeFileSync("screenshot_set.png", buffer , "base64")
         
