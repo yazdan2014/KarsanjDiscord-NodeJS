@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 const {MessageEmbed } = require('discord.js')
 const client = new Discord.Client();
 const randomEmoji = require('random-emoji');
-const emojies = ["0️⃣","1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣"]
+const emojies = ["0️⃣","1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣","👧","👳‍♂️","👩‍🦲","👴","🤰","🎅","🕵️‍♂️"]
 const webScrape = require("./WebScrape")
 let status = false
 
