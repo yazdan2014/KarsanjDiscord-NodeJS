@@ -21,7 +21,7 @@ function download(url , name){
 const profileModel = require("./models/profilesSchema")
 
 const mongoose = require("mongoose")
-mongoose.connect("mongodb+srv://yazdan:yazdan2014@discordbot.s3u0u.mongodb.net/Discord?retryWrites=true&w=majority" ,{
+mongoose.connect("<Data Base>" ,{
     useNewUrlParser : true,
     useUnifiedTopology : true,
 }).then(()=>{ 
@@ -256,4 +256,4 @@ client.on('message' , (message) => {
         })
     }
 })
-client.login("NzQwODM0NzE0NjA0MTQyNjc1.XyuyGA.YU-yPGlWcRi6lTOCM0qKWuv1LpI");
+client.login(TOKEN);
